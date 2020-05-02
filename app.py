@@ -79,7 +79,7 @@ def current_transaction(id):
     conn = sqlite3.connect(db)
     conn.row_factory = dict_factory
     cur = conn.cursor()
-    current_transaction = cur.execute('SELECT * FROM user_id WHERE complete = True;').fetchall()
+    current_transaction = cur.execute('SELECT * FROM user_id WHERE complete = False;').fetchall()
     return jsonify(current_transaction)
         
 #show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
@@ -90,7 +90,7 @@ def history_transaction(id):
     conn = sqlite3.connect(db)
     conn.row_factory = dict_factory
     cur = conn.cursor()
-    current_transaction = cur.execute('SELECT * FROM user_id WHERE complete = False;').fetchall()
+    current_transaction = cur.execute('SELECT * FROM user_id WHERE complete = True;').fetchall()
     return jsonify(current_transaction)
 
 
