@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -54,8 +54,6 @@ def add_transaction():
     db.session.commit()
     return "Item has been added to the cart"
     
-    
-    
         
 #<---- todo ------>
         
@@ -64,23 +62,26 @@ def add_transaction():
 def checkout():
     data = request.get_json()
     user_id = data['user_id']
-    
+    transaction = db.session.query(Cart_table).filter(Cart_table.user_id == user_id)
+    transaction.complete = True
+    db.session.commit()
+
     
 #show active transaction (send all transaction(complete = FALSE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/current_transaction', methods=['GET'])
-def checkout(id):
-    user_id = id
-    
+def current_transaction():
+    data = request.get_json()
+    user_id = data['user_id']
+    current_transaction = filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
+    return jsonify(current_transaction)
         
 #show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/history_transaction', methods=['GET'])
-def checkout(id):
-    user_id = id
-    
-    
-
-
-
+def history_transaction():
+    data = request.get_json()
+    user_id = data['user_id']
+    history_transaction = filter(Cart_table.user_id == 'user_id',Cart_table.complete.is_(True))
+    return jsonify(history_transaction)
 
 if __name__ == '__main__':
     app.run()
