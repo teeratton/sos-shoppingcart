@@ -19,7 +19,8 @@ This API for shopping cart provides a selection of endpoints for interacting wit
 - [API](#api)
   - [Endpoints](#endpts)
   - [Requests and responses](#req)
-    - [POST add or remove product items](#transaction)
+    - [POST add product items](#add)
+    - [POST remove product items](#remove)
     - [POST checkout shopping cart](#checkout)
     - [GET current shopping carts](#current)
     - [GET history shopping carts](#history)
@@ -68,21 +69,21 @@ Authorization functionality is provided by a separate, web front-end, micro-serv
 
 |Method|Endpoint/Request|Description|
 |------|----------------|-----------|
-|**POST**|   /api/v1/transactions| Add or remove product items|
-|**POST**|   /api/v1/checkout|Checkout shopping cart|
-|**GET**|    /api/v1/users/:user_id/current_transactions/|Display active carts|
-|**GET**|    /api/v1/users/:user_id/history_transactions/|Display carts that were checked out|
+|**POST**|   /api/v1/add| Add product item/s|
+|**POST**|   /api/v1/remove| Remove product item/s|
+|**POST**|   /api/v1/checkout|Checkout current shopping cart|
+|**GET**|    /api/v1/users/:user_id/current_transaction/|Display active carts|
+|**GET**|    /api/v1/users/:user_id/history_transaction/|Display carts that were checked out of given user|
 
 ## Requests and responses
 
 Example of requests and responses are given for each endpoints:
 
-### POST add or remove product items
+### POST add or remove product item/s
 Create new transaction on the basis of `product_id` and `quantity` parameter
-Endpoint: /api/v1/transactions/
 
 **Add Example:** 
-
+Endpoint: /api/v1/add
 ```
 POST /api/v1/transactions
 Content-type: application/json 
@@ -99,7 +100,7 @@ Accept: application/json
 ```
 
 **Remove Example:** 
-
+Endpoint: /api/v1/remove
 ```
 POST /api/v1/transactions
 Content-type: application/json 
@@ -129,16 +130,17 @@ Accept: application/json
 **Reponse to request:**
 ```
 {
+	"Current cart has been checked out."
 }
 ```
 
 ### GET current shopping carts
-Endpoint:  /api/v1/users/:user_id/current_transactions/
+Endpoint:  /api/v1/users/:user_id/current_transaction/
 
 **Example:** Current user `id` = 2 
 
 ```
-GET /api/v1/users/2/current_transactions/
+GET /api/v1/users/2/current_transaction/
 Content-type: application/json 
 Accept: application/json
 ```
@@ -149,12 +151,12 @@ Accept: application/json
 ```
 
 ### GET history shopping carts
-Endpoint: /api/v1/users/:user_id/history_transactions/
+Endpoint: /api/v1/users/:user_id/history_transaction/
 
 **Example:**  Current user `id` = 2 
 
 ```
-GET /api/v1/users/2/history_transactions
+GET /api/v1/users/2/history_transaction
 Content-type: application/json 
 Accept: application/json
 ```
