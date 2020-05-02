@@ -66,14 +66,16 @@ def checkout():
     
 #show active transaction (send all transaction(complete = FALSE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/current_transaction', methods=['GET'])
-def current_transaction(id):
+def current_transaction():
+    data = request.get_json()
     user_id = data['user_id']
     current_transaction =  db.Cart_table.filter(and_(db.Cart_table.user_id=='user_id', db.Cart_table.complete=='False'))
     return jsonify(current_transaction)
         
 #show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/history_transaction', methods=['GET'])
-def history_transaction(id):
+def history_transaction():
+    data = request.get_json()
     user_id = data['user_id']
     history_transaction = db.Cart_table.filter(and_(db.Cart_table.user_id=='user_id', db.Cart_table.complete=='True'))
     return jsonify(current_transaction)
