@@ -64,35 +64,19 @@ def checkout():
     user_id = data['user_id']
 
     
-def dict_factory(cursor, row): 
-"""Converts rows that need to be retrieved into a dictionary object. This function replaces the existing row_factory attribute of the sqlite3 connection object.z"""
-d = {}
-for idx, col in enumerate(cursor.description):
-d[col[0]] = row[idx]
-return d
-    
 #show active transaction (send all transaction(complete = FALSE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/current_transaction', methods=['GET'])
 def current_transaction(id):
     user_id = data['user_id']
-    complete =  data['complete']
-    conn = sqlite3.connect(db)
-    conn.row_factory = dict_factory
-    cur = conn.cursor()
-    current_transaction = cur.execute('SELECT * FROM user_id WHERE complete = False;').fetchall()
+    current_transaction =  db.Cart_table.filter(and_(db.Cart_table.user_id=='user_id', db.Cart_table.complete=='False'))
     return jsonify(current_transaction)
         
 #show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/history_transaction', methods=['GET'])
 def history_transaction(id):
     user_id = data['user_id']
-    complete =  data['complete']
-    conn = sqlite3.connect(db)
-    conn.row_factory = dict_factory
-    cur = conn.cursor()
-    current_transaction = cur.execute('SELECT * FROM user_id WHERE complete = True;').fetchall()
+    history_transaction = db.Cart_table.filter(and_(db.Cart_table.user_id=='user_id', db.Cart_table.complete=='True'))
     return jsonify(current_transaction)
-
 
 if __name__ == '__main__':
     app.run()
