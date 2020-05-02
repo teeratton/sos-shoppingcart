@@ -3,9 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-ENV = 'dev'
+ENV = 'prod'
 
-if ENV == 'prod':
+if ENV == 'dev':
     app.debug = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/shopping_cart'
 else:
@@ -37,22 +37,49 @@ def index():
     return render_template('APItest.html')
 
 
+
+# Add product to cart
 @app.route('/api/v1/transactions', methods=['POST'])
 def add_transaction():
-    if request.method == 'POST':
-        user_id = request.form['user_id']
-        product_id = request.form['product_id']
-        quantity = request.form['quantity']
-        # print(customer, dealer, rating, comments)
-        if customer == '' or dealer == '':
-            return render_template('index.html', message='Please enter required fields')
-        if db.session.query(Cart_table).filter(Cart_table.customer == customer).count() == 0:
-            data = Cart_table(customer, dealer, rating, comments)
-            db.session.add(data)
-            db.session.commit()
-            send_mail(customer, dealer, rating, comments)
-            return render_template('success.html')
-        return render_template('index.html', message='You have already submitted feedback')
+    
+    data = request.get_json()
+    
+    user_id = data['user_id']
+    product_id = data ['user_id']
+    quantity = data['quantity']
+    complete = False
+    
+    data = Cart_table(user_id,product_id,quantity,complete)
+    db.session.add(data)
+    db.session.commit()
+    return "Item has been added to the cart"
+    
+    
+    
+        
+#<---- todo ------>
+        
+# checkout  query all transaction of given user_id and change complete to TRUE
+@app.route('/api/v1/checkout', methods=['POST'])
+def checkout():
+    data = request.get_json()
+    user_id = data['user_id']
+    
+    
+#show active transaction (send all transaction(complete = FALSE) of given id) return in JSON format
+@app.route('/api/v1/users/<id>/current_transaction', methods=['GET'])
+def checkout(id):
+    user_id = id
+    
+        
+#show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
+@app.route('/api/v1/users/<id>/history_transaction', methods=['GET'])
+def checkout(id):
+    user_id = id
+    
+    
+
+
 
 
 if __name__ == '__main__':
