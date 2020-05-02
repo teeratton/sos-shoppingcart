@@ -94,6 +94,7 @@ Accept: application/json
 	"user_id": 55
 	"product id": "1",
 	"quantity": "1",
+	"complete": "False"
 }
 ```
 
@@ -110,6 +111,7 @@ Accept: application/json
 	"user_id": 55
 	"product id": "1",
 	"quantity": "0",
+	"complete": True"
 }
 ```
 
