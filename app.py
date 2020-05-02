@@ -69,7 +69,7 @@ def checkout():
 def current_transaction():
     data = request.get_json()
     user_id = data['user_id']
-    current_transaction =  db.Cart_table.filter(and_(db.Cart_table.user_id=='user_id', db.Cart_table.complete=='False'))
+    current_transaction = filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
     return jsonify(current_transaction)
         
 #show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
@@ -77,8 +77,8 @@ def current_transaction():
 def history_transaction():
     data = request.get_json()
     user_id = data['user_id']
-    history_transaction = db.Cart_table.filter(and_(db.Cart_table.user_id=='user_id', db.Cart_table.complete=='True'))
-    return jsonify(current_transaction)
+    history_transaction = filter(Cart_table.user_id == 'user_id',Cart_table.complete.is_(True))
+    return jsonify(history_transaction)
 
 if __name__ == '__main__':
     app.run()
