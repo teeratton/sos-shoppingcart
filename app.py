@@ -62,10 +62,8 @@ def add_transaction():
 def checkout():
     data = request.get_json()
     user_id = data['user_id']
-    data = request.get_json()
-    user_id = data['user_id']
-    t = db.session.query(Cart_table).filter(Cart_table.user_id == user_id)
-    t.complete = True
+    transaction = db.session.query(Cart_table).filter(Cart_table.user_id == user_id)
+    transaction.complete = True
     db.session.commit()
 
     
