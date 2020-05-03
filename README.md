@@ -87,7 +87,7 @@ POST /api/v1/add_transaction
 Content-type: application/json 
 Accept: application/json
 ```
-**Request body:**
+**Response body:**
 ```
 {
 	"user_id": 55
@@ -103,8 +103,7 @@ POST /api/v1/change_quantity
 Content-type: application/json 
 Accept: application/json
 ```
-**Request body:**
-This will update the quantity of production_id 1 and user_id 55 to 1
+**Response body:** This will update the quantity of production_id 1 and user_id 55 to 1
 ```
 {
 	"user_id": 55,
@@ -119,8 +118,7 @@ POST /api/v1/delete_transaction
 Content-type: application/json 
 Accept: application/json
 ```
-**Request body:**
-This will delete the product_id 1 from user_id55's cart
+**Response body:** This will delete the product_id 1 from user_id55's cart
 ```
 {
 	"user_id": 55,
@@ -176,7 +174,7 @@ GET /api/v1/users/2/history_transaction
 Content-type: application/json 
 Accept: application/json
 ```
-**Response:**
+**Response body:**
 ```
 [
 	{"user_id" :2 , 
