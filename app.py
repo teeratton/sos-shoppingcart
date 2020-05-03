@@ -40,7 +40,7 @@ def index():
 
 
 # Add product to cart
-@app.route('/api/v1/transactions', methods=['POST'])
+@app.route('/api/v1/add_transaction', methods=['POST'])
 def add_transaction():
     
     data = request.get_json()
