@@ -83,6 +83,8 @@ def change_quantity():
     db.session.commit()
     return "quantity is changed"
     
+    
+# delete active transaction of given user_id and product_id
 @app.route('/api/v1/delete_transaction', methods=['DELETE'])
 def delete_transaction():
     data = request.get_json()
