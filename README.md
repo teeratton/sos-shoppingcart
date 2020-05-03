@@ -49,7 +49,7 @@ Authorization functionality is provided by a separate, web front-end, micro-serv
 | Attribute | Type | Description |
 |-----------|------|-------------|
 |**user_id** |integer |Owner's id of the shopping cart|
-|**product_list**|integer |List of product/s inside cart|
+|**product_id**|integer |product's id|
 |**quantity** |integer |quantity of the product|
 |**complete** |boolean |False = current cart(not paid), True = history cart(paid)|
 
