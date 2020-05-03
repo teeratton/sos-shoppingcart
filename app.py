@@ -87,7 +87,7 @@ def current_transaction(id):
     #current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
     #print(current_transaction)
     #return current_transaction
-    return jsonify(json_list=[i.serialize for i in current_transactions.all()])
+    return jsonify(json_list=[i.serialize for i in current_transactions])
         
 #show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/history_transaction', methods=['GET'])
