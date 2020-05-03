@@ -80,17 +80,16 @@ Authorization functionality is provided by a separate, web front-end, micro-serv
 
 Example of requests and responses are given for each endpoints:
 
-### POST add or remove product item/s
+### POST add transaction
 Create new transaction on the basis of `product_id` and `quantity` parameter
 
-## Add product to cart Example 
-Endpoint: /api/v1/add_transaction
+## Add product to cart
 ```
 POST /api/v1/add_transaction
 Content-type: application/json 
 Accept: application/json
 ```
-**Request body example:**
+**Request body:**
 ```
 {
 	"user_id": 55
@@ -99,40 +98,37 @@ Accept: application/json
 }
 ```
 
-## Change quantity 
-Endpoint: /api/v1/change_quantity
+## POST Change quantity
+Change quantity inside a shopping cart of a product item
 ```
 POST /api/v1/change_quantity
 Content-type: application/json 
 Accept: application/json
 ```
-**Request body example**
+**Request body:**: This will update the quantity of production_id 1 and user_id 55 to 1
 ```
 {
 	"user_id": 55,
 	"product id": "1",
 	"quantity": "1"
 }
-This will update the quantity of production_id 1 and user_id 55 to 1
 ```
 
-## Remove product from cart 
-Endpoint: /api/v1/remove_transaction
+## DELETE transaction of a product from cart 
 ```
-POST /api/v1/transactions
+POST /api/v1/delete_transaction
 Content-type: application/json 
 Accept: application/json
 ```
-**Request body example:**
+**Request body:**: This will delete the product_id 1 from user_id55's cart
 ```
 {
 	"user_id": 55,
 	"product id": "1"
 }
-This will delete the product_id 1 from user_id55's cart
 ```
 
-## Checkout shopping cart
+## POST Checkout shopping cart
 Update `False` status of `complete` parameter of current cart to be `True` = PAID
 Endpoint: /api/v1/checkout
 ```
@@ -140,17 +136,14 @@ POST /api/v1/checkout
 Content-type: application/json 
 Accept: application/json
 ```
-
-**Request body example:**
+**Request body:** This will update all current transaction of given user_id to 'True' = PAID
 ```
 {
 	"user_id": 55
 }
-This will update all current transaction of given user_id to 'True' = PAID
 ```
 
-
-## Get current shoppingcart
+## GET current shoppingcart
 Endpoint:  /api/v1/users/:user_id/current_transaction/
 
 **Example:** Current user `id` = 3 
@@ -160,9 +153,16 @@ GET /api/v1/users/3/current_transaction/
 Content-type: application/json 
 Accept: application/json
 ```
-**Response:**
+**Response body:**
 ```
-[{"user_id" :3 , "product_id" : 5 , "quantity" :10} , {"user_id" : 3, "product_id: 10, "quantity" : 3}]
+[
+	{"user_id" : 3,
+		"product_id": 5,
+		"quantity": 10}, 
+	{"user_id" : 3,
+		"product_id: 10, 
+		"quantity" : 3}
+]
 ```
 
 ## GET history shopping carts
@@ -177,6 +177,12 @@ Accept: application/json
 ```
 **Response:**
 ```
-[{"user_id" :2 , "product_id" : 10 , "quantity" :2} , {"user_id" : 2, "product_id: 20, "quantity" : 10}]
-```
+[
+	{"user_id" :2 , 
+		"product_id": 10, 
+		"quantity": 2}, 
+	{"user_id" : 2, 
+		"product_id: 20, 
+		"quantity" : 10}
+]
 ```
