@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from flask.json import JSONEncoder
 from flask_sqlalchemy import SQLAlchemy
 
+
 app = Flask(__name__)
 app.json_encoder = MyJSONEncoder
 
@@ -17,6 +18,7 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
 
 
 class Cart_table(db.Model):
@@ -41,6 +43,11 @@ class Cart_table(db.Model):
             'quantity': self.quantity,
             'complete": self.complete
         }
+    def serialize(self):
+        return {'user_id':self.user_id,'product_id':self.product_id,'quantity':self.quantity,'complete':self.complete}
+        
+
+ 
 
 class MyJSONEncoder(JSONEncoder):
     def default(self, obj):
@@ -67,7 +74,7 @@ def add_transaction():
     data = request.get_json()
     
     user_id = data['user_id']
-    product_id = data ['user_id']
+    product_id = data ['product_id']
     quantity = data['quantity']
     complete = False
     
@@ -91,17 +98,21 @@ def checkout():
     
 #show active transaction (send all transaction(complete = FALSE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/current_transaction', methods=['GET'])
-def current_transaction():
+
+def current_transaction(id):
     data = request.get_json()
-    user_id = data['user_id']
+    user_id = id
+    current_transactions = Cart_table.query.all()
     current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
-    return jsonify(current=[e.serialize() for e in current_transaction])
+    print(current_transaction)
+    return jsonify(json_list=[i.serialize for i in current_transactions])
+
         
 #show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/history_transaction', methods=['GET'])
-def history_transaction():
+def history_transaction(id):
     data = request.get_json()
-    user_id = data['user_id']
+    user_id = id
     history_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id',Cart_table.complete.is_(True))
     return jsonify(current=[e.serialize() for e in history_transaction])
 
