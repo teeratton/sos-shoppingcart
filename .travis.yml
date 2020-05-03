@@ -8,13 +8,13 @@ cache: pip
 # install dependencies
 install:
   - pip install -r requirements.txt
-#script:
+script:
 #  - git clone https://github.com/teeratton/sos-shoppingcart.git
- # - cd sos-shoppingcart
-  #- coverage run app.py
-#  - coverage run --source sos-shoppingcart --branch -m unittest discover
- # - coverage report
- # - pytest
+# - cd sos-shoppingcart
+# - coverage run app.py
+ - coverage run --source sos-shoppingcart --branch -m unittest discover
+# - coverage report
+# - pytest
 deploy:
   provider: heroku
   api_key:
