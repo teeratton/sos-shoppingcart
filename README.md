@@ -157,10 +157,10 @@ Accept: application/json
 ```
 [
 	
-		"product_id": 5,
+		{"product_id": 5,
 		"quantity": 10}, 
 	
-		"product_id: 10, 
+		{"product_id: 10, 
 		"quantity" : 3}
 ]
 ```
@@ -179,10 +179,10 @@ Accept: application/json
 ```
 [
 	
-		"product_id": 10, 
+		{"product_id": 10, 
 		"quantity": 2}, 
 	 
-		"product_id: 20, 
+		{"product_id: 20, 
 		"quantity" : 10}
 ]
 ```
