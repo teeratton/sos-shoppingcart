@@ -14,7 +14,9 @@ before script: export FLASK_ENV=development
 script:
   - git clone https://github.com/teeratton/sos-shoppingcart.git
   - cd sos-shoppingcart
-  - coverage run app.py
+  #- coverage run app.py
+  - coveralls
+  - pytest
   - coverage report
 after_success:
   - codecov
