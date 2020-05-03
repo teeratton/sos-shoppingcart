@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallo import Marshmallo
 
 
 app = Flask(__name__)
@@ -18,7 +17,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-ma = Marshmallo(app)
 
 
 class Cart_table(db.Model):
@@ -35,13 +33,7 @@ class Cart_table(db.Model):
         self.quantity = quantity
         self.complete = complete
         
-#Cart schema
-class CartSchema(ma.Cart_table):
-    class Meta:
-        fields = ('user_id','product_id','quantity','complete')
-        
-cart_schema = CartSchema(strict=True)
-carts_schema = CartSchema(many = True, strict=True)
+
 
 
 
@@ -85,8 +77,6 @@ def checkout():
 def current_transaction(id):
     user_id = id
     current_transaction = Cart_table.query.all()
-    result = carts_schema.dump(current_transaction)
-    return jsonify(result.data)
     #current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
     #print(current_transaction)
     #return current_transaction
