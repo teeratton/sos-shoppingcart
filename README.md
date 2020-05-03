@@ -21,9 +21,9 @@ This API for shopping cart provides a selection of endpoints for interacting wit
   - [Requests and responses](#req)
     - [POST Add product transaction](#add)
     - [POST Change quantity](#change)
-    - [DELETE transaction of a product](#delete)
-    - [GET current shopping cart](#current)
-    - [GET history shopping carts](#history)
+    - [DELETE Transaction of a product](#delete)
+    - [GET Current shopping cart](#current)
+    - [GET History shopping carts](#history)
  
 ## Hello World 
 Our SOS shopping cart is deployed through heroku at: 
@@ -49,7 +49,7 @@ Authorization functionality is provided by a separate, web front-end, micro-serv
 | Attribute | Type | Description |
 |-----------|------|-------------|
 |**user_id** |integer |Owner's id of the shopping cart|
-|**product_list**|integer |product's the shopping cart|
+|**product_list**|integer |List of product/s inside cart|
 |**quantity** |integer |quantity of the product|
 |**complete** |boolean |False = current cart(not paid), True = history cart(paid)|
 
@@ -80,10 +80,8 @@ Authorization functionality is provided by a separate, web front-end, micro-serv
 
 Example of requests and responses are given for each endpoints:
 
-### POST add transaction
+### POST Add product transaction
 Create new transaction on the basis of `product_id` and `quantity` parameter
-
-## Add product transaction
 ```
 POST /api/v1/add_transaction
 Content-type: application/json 
@@ -105,7 +103,8 @@ POST /api/v1/change_quantity
 Content-type: application/json 
 Accept: application/json
 ```
-**Request body:**: This will update the quantity of production_id 1 and user_id 55 to 1
+**Request body:**
+This will update the quantity of production_id 1 and user_id 55 to 1
 ```
 {
 	"user_id": 55,
@@ -114,13 +113,14 @@ Accept: application/json
 }
 ```
 
-## DELETE transaction of a product 
+## DELETE Transaction of a product 
 ```
 POST /api/v1/delete_transaction
 Content-type: application/json 
 Accept: application/json
 ```
-**Request body:**: This will delete the product_id 1 from user_id55's cart
+**Request body:**
+This will delete the product_id 1 from user_id55's cart
 ```
 {
 	"user_id": 55,
@@ -143,7 +143,7 @@ Accept: application/json
 }
 ```
 
-## GET current shoppingcart
+## GET Current shoppingcart
 Endpoint:  /api/v1/users/:user_id/current_transaction/
 
 **Example:** Current user `id` = 3 
@@ -156,16 +156,16 @@ Accept: application/json
 **Response body:**
 ```
 [
-	
-		{"product_id": 5,
+	{"user_id" : 3,
+		"product_id": 5,
 		"quantity": 10}, 
-	
-		{"product_id: 10, 
+	{"user_id" : 3,
+		"product_id: 10, 
 		"quantity" : 3}
 ]
 ```
 
-## GET history shopping carts
+## GET History shopping carts
 Endpoint: /api/v1/users/:user_id/history_transaction/
 
 **Example:**  Current user `id` = 2 
@@ -178,11 +178,11 @@ Accept: application/json
 **Response:**
 ```
 [
-	
-		{"product_id": 10, 
+	{"user_id" :2 , 
+		"product_id": 10, 
 		"quantity": 2}, 
-	 
-		{"product_id: 20, 
+	{"user_id" : 2, 
+		"product_id: 20, 
 		"quantity" : 10}
 ]
 ```
