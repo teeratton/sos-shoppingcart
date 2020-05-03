@@ -33,6 +33,11 @@ class Cart_table(db.Model):
         self.quantity = quantity
         self.complete = complete
         
+    def serialize(self):
+        return {'user_id':self.user_id,'product_id':self.product_id,'quantity':self.quantity,'complete':self.complete}
+        
+
+        
 
 
 
@@ -77,13 +82,12 @@ def checkout():
 def current_transaction(id):
     user_id = id
     current_transactions = Cart_table.query.all()
-    data = JSON.dumps(current_transactions)
     
     
     #current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
     #print(current_transaction)
     #return current_transaction
-    return data
+    return jsonify(json_list=[i.serialize for i in current_transactions.all()])
         
 #show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/history_transaction', methods=['GET'])
