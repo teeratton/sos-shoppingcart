@@ -11,12 +11,14 @@ install:
   - pip install coverage
   - pip install pytest-flask
 before script:
+  - export FLASK_APP=sos-shoppingcart
   - export FLASK_ENV=development
   - export PYTHONPATH=../.
 script:
   - git clone https://github.com/teeratton/sos-shoppingcart.git
   - cd sos-shoppingcart
   #- coverage run app.py
+  - coverage run --source sos-shoppingcart --branch -m unittest discover
   - coveralls
   - pytest
   - coverage report
