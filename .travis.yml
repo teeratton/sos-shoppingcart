@@ -19,9 +19,8 @@ script:
   - cd sos-shoppingcart
   #- coverage run app.py
   - coverage run --source sos-shoppingcart --branch -m unittest discover
-  - coveralls
-  - pytest
   - coverage report
+  - pytest
 after_success:
   - codecov
 deploy:
