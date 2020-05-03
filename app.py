@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-ENV = 'dev'
+ENV = 'prod'
 
 if ENV == 'dev':
     app.debug = True
@@ -17,8 +17,6 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-
-
 
 class Cart_table(db.Model):
     __tablename__ = 'shopping_cart'
@@ -34,22 +32,7 @@ class Cart_table(db.Model):
         self.quantity = quantity
         self.complete = complete
         
-    def trans_serialize(self):
-        return {
-            'cart_id': self.cart_id,
-            'user_id': self.user_id, 
-            'product_id': self.product_id,
-            'quantity': self.quantity,
-            'complete': self.complete
-        }
-    def serialize(self):
-        return {'user_id':self.user_id,'product_id':self.product_id,'quantity':self.quantity,'complete':self.complete}
-        
-
- 
-
-
-   
+    
 @app.route('/')
 def index():
     return render_template('APItest.html')
@@ -72,9 +55,7 @@ def add_transaction():
     db.session.commit()
     return "Item has been added to the cart"
     
-        
-#<---- todo ------>
-        
+                
 # checkout  query all transaction of given user_id and change complete to TRUE
 @app.route('/api/v1/checkout', methods=['POST'])
 def checkout():
@@ -107,8 +88,6 @@ def current_transaction(id):
     json_format = json.dumps(data)
     print(json_format)
     
-   
-
     return json_format
 
         
@@ -129,5 +108,6 @@ def history_transaction(id):
     print(json_format)
 
     return json_format
+    
 if __name__ == '__main__':
     app.run()
