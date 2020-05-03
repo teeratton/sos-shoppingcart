@@ -99,7 +99,7 @@ Accept: application/json
 }
 ```
 
-## change quantity 
+## Change quantity 
 Endpoint: /api/v1/change_quantity
 ```
 POST /api/v1/change_quantity
@@ -132,7 +132,7 @@ Accept: application/json
 This will delete the product_id 1 from user_id55's cart
 ```
 
-## checkout shopping cart
+## Checkout shopping cart
 Update `False` status of `complete` parameter of current cart to be `True` = PAID
 Endpoint: /api/v1/checkout
 ```
