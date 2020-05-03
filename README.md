@@ -156,10 +156,10 @@ Accept: application/json
 **Response body:**
 ```
 [
-	{"user_id" : 3,
+	
 		"product_id": 5,
 		"quantity": 10}, 
-	{"user_id" : 3,
+	
 		"product_id: 10, 
 		"quantity" : 3}
 ]
