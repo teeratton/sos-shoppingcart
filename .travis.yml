@@ -9,20 +9,10 @@ cache: pip
 install:
   - pip install -r requirements.txt
   - pip install codecov
-  - pip install pylint
-  - pip install pytest
   - pip install pytest-flask
-before_script:
-  - pylint --version
 script:
-  # unit test
-  #- python -m pytest -v
-  # check style
-  #- pylint --output-format=text app.py
-  #coverage test
-  #- coverage erase
-  #- coverage run app.py && coverage html
-  - py.test
+  - coverage run app.py
+  - coverage report
 after_success:
   - codecov
 deploy:
