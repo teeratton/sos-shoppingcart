@@ -41,7 +41,7 @@ class Cart_table(db.Model):
             'user_id': self.user_id, 
             'product_id': self.product_id,
             'quantity': self.quantity,
-            'complete": self.complete
+            'complete': self.complete
         }
     def serialize(self):
         return {'user_id':self.user_id,'product_id':self.product_id,'quantity':self.quantity,'complete':self.complete}
