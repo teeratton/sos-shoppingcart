@@ -31,15 +31,7 @@ class Cart_table(db.Model):
         self.product_id = product_id
         self.quantity = quantity
         self.complete = complete
- 
-    def create_app():
-        app = Flask(__name__)
-        app.config.from_object(Config)
-        app.config['DEBUG'] = True
-        db.init_app(app)
-       
-        return app
-        
+
     
 @app.route('/')
 def index():
