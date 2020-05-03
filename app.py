@@ -45,7 +45,7 @@ def add_transaction():
     data = request.get_json()
     
     user_id = data['user_id']
-    product_id = data ['user_id']
+    product_id = data ['product_id']
     quantity = data['quantity']
     complete = False
     
