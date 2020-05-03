@@ -19,10 +19,10 @@ This API for shopping cart provides a selection of endpoints for interacting wit
 - [API](#api)
   - [Endpoints](#endpts)
   - [Requests and responses](#req)
-    - [POST add product items](#add)
-    - [POST remove product items](#remove)
-    - [POST checkout shopping cart](#checkout)
-    - [GET current shopping carts](#current)
+    - [POST Add product transaction](#add)
+    - [POST Change quantity](#change)
+    - [DELETE transaction of a product](#delete)
+    - [GET current shopping cart](#current)
     - [GET history shopping carts](#history)
  
 ## Hello World 
@@ -83,7 +83,7 @@ Example of requests and responses are given for each endpoints:
 ### POST add transaction
 Create new transaction on the basis of `product_id` and `quantity` parameter
 
-## Add product to cart
+## Add product transaction
 ```
 POST /api/v1/add_transaction
 Content-type: application/json 
@@ -114,7 +114,7 @@ Accept: application/json
 }
 ```
 
-## DELETE transaction of a product from cart 
+## DELETE transaction of a product 
 ```
 POST /api/v1/delete_transaction
 Content-type: application/json 
