@@ -161,7 +161,8 @@ Accept: application/json
 		"quantity": 10}, 
 	{"user_id" : 3,
 		"product_id: 10, 
-		"quantity" : 3}
+		"quantity" : 3},
+	...
 ]
 ```
 
@@ -183,14 +184,8 @@ Accept: application/json
 		"quantity": 2}, 
 	{"user_id" : 2, 
 		"product_id: 20, 
-		"quantity" : 10}
-	
+		"quantity" : 10},
+	...
 ]
 ```
 
-```diff
-	- text in red
-	+ text in green
-	! text in orange
-	# text in gray
-```
