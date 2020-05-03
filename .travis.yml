@@ -9,8 +9,8 @@ cache: pip
 install:
   - pip install -r requirements.txt
 script:
-#  - git clone https://github.com/teeratton/sos-shoppingcart.git
-# - cd sos-shoppingcart
+  - git clone https://github.com/teeratton/sos-shoppingcart.git
+ - cd sos-shoppingcart
 # - coverage run app.py
  - coverage run --source sos-shoppingcart --branch -m unittest discover
 # - coverage report
