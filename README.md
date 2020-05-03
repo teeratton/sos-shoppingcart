@@ -184,6 +184,10 @@ Accept: application/json
 	{"user_id" : 2, 
 		"product_id: 20, 
 		"quantity" : 10}
-	<div class="text-red mb-2">...</div>
+	'''
+	<div class="text-red bg-red-light mb-2">
+	  .text-red on .bg-red-light
+	</div>
+	'''
 ]
 ```
