@@ -184,11 +184,13 @@ Accept: application/json
 	{"user_id" : 2, 
 		"product_id: 20, 
 		"quantity" : 10}
-	```diff
+	
+]
+```
+
+```diff
 	- text in red
 	+ text in green
 	! text in orange
 	# text in gray
 	```
-]
-```
