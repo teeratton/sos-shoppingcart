@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-ENV = 'prod'
+ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
@@ -50,11 +50,21 @@ def add_transaction():
     quantity = data['quantity']
     complete = False
     
-    data = Cart_table(user_id,product_id,quantity,complete)
-    db.session.add(data)
-    db.session.commit()
-    return "Item has been added to the cart"
+    current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == user_id, Cart_table.product_id == product_id, Cart_table.complete == False)
     
+    if current_transaction.count() == 0:
+        data = Cart_table(user_id,product_id,quantity,complete)
+        db.session.add(data)
+        db.session.commit()
+        return "Item has been added to the cart"
+    
+    quantity = current_transaction[0].quantity + quantity
+    
+    current_transaction.update({'quantity' : quantity})
+    db.session.commit()
+
+        
+    return "quantity updated"
                 
 # checkout  query all transaction of given user_id and change complete to TRUE
 @app.route('/api/v1/checkout', methods=['POST'])
