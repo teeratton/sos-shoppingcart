@@ -86,7 +86,16 @@ def add_transaction():
     return "Item has been added to the cart"
 # -----------------------------------------------------------------------------------------------
 
-
+'''
+def add_product(id):
+    data = request.get_json()
+    user_id = id
+    current_transactions = Cart_table.query.all()
+    current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
+    current_transaction.
+    print(current_transaction)
+    return jsonify(json_list=[i.trans_serialize for i in current_transactions])
+'''
 # -----------------------------------------------------------------------------------------------
 
 
