@@ -50,7 +50,7 @@ Authorization functionality is provided by a separate, web front-end, micro-serv
 |-----------|------|-------------|
 |**user_id** |integer |Owner's id of the shopping cart|
 |**product_list**|integer |product's the shopping cart|
-|**quantity** |boolean |quantity of the product|
+|**quantity** |integer |quantity of the product|
 |**complete** |boolean |False = current cart(not paid), True = history cart(paid)|
 
 ## Cart Transaction History Database
