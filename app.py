@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, jsonify
+from flask.json import JSONEncoder
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.json_encoder = MyJSONEncoder
 
 ENV = 'prod'
 
@@ -30,8 +32,28 @@ class Cart_table(db.Model):
         self.product_id = product_id
         self.quantity = quantity
         self.complete = complete
+        
+    def trans_serialize(self):
+        return {
+            'cart_id': self.cart_id,
+            'user_id': self.user_id, 
+            'product_id': self.product_id,
+            'quantity': self.quantity,
+            'complete": self.complete
+        }
 
-
+class MyJSONEncoder(JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Cart_table):
+            return {
+            'cart_id': obj.cart_id,
+            'user_id': obj.user_id, 
+            'product_id': obj.product_id,
+            'quantity': obj.quantity,
+            'complete': obj.complete
+            }
+        return super(MyJSONEncoder, self).default(obj)
+   
 @app.route('/')
 def index():
     return render_template('APItest.html')
@@ -73,7 +95,7 @@ def current_transaction():
     data = request.get_json()
     user_id = data['user_id']
     current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
-    return jsonify(current_transaction)
+    return jsonify(current=[e.serialize() for e in current_transaction])
         
 #show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/history_transaction', methods=['GET'])
@@ -81,7 +103,7 @@ def history_transaction():
     data = request.get_json()
     user_id = data['user_id']
     history_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id',Cart_table.complete.is_(True))
-    return jsonify(history_transaction)
+    return jsonify(current=[e.serialize() for e in history_transaction])
 
 if __name__ == '__main__':
     app.run()
