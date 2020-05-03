@@ -132,7 +132,7 @@ def current_transaction(id):
     
     data = []
     for i in current_transactions:
-        data_set = {"user_id" : i.user_id, "product_id": i.product_id, "quantity": i.quantity}
+        data_set = {"product_id": i.product_id, "quantity": i.quantity}
         data.append(data_set)
     json_format = json.dumps(data)
     print(json_format)
@@ -151,7 +151,7 @@ def history_transaction(id):
     
     data = []
     for i in current_transactions:
-        data_set = {"user_id" : i.user_id, "product_id": i.product_id, "quantity": i.quantity}
+        data_set = {"product_id": i.product_id, "quantity": i.quantity}
         data.append(data_set)
     json_format = json.dumps(data)
     print(json_format)
