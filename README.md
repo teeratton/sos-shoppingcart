@@ -178,10 +178,10 @@ Accept: application/json
 **Response:**
 ```
 [
-	{"user_id" :2 , 
+	
 		"product_id": 10, 
 		"quantity": 2}, 
-	{"user_id" : 2, 
+	 
 		"product_id: 20, 
 		"quantity" : 10}
 ]
