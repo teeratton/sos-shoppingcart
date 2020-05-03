@@ -8,10 +8,12 @@ cache: pip
 # install dependencies
 install:
   - pip install -r requirements.txt
-  - pip install codecov
+  - pip install coverage
   - pip install pytest-flask
 script:
-  - coverage run app.py
+  - git clone https://github.com/teeratton/sos-shoppingcart.git
+  - cd sos-shoppingcart
+  - coverage run –source=sos-shoppingcart
   - coverage report
 after_success:
   - codecov
