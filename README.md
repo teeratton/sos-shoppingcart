@@ -92,6 +92,7 @@ Accept: application/json
 **Reponse to request:**
 ```
 {
+	"cart_id::555
 	"user_id": 55
 	"product id": "1",
 	"quantity": "1",
@@ -109,6 +110,7 @@ Accept: application/json
 **Reponse to request:**
 ```
 {
+	"cart_id": 555
 	"user_id": 55
 	"product id": "1",
 	"quantity": "0",
@@ -147,6 +149,22 @@ Accept: application/json
 **Reponse to request:**
 ```
 {
+  "current": [
+    {
+      "cart_id": "555",
+	"user_id": "2",
+	"product id": "1",
+	"quantity": "1",
+	"complete": False"
+    }, 
+    {
+     "cart_id": "555",
+	"user_id": "2",
+	"product id": "1",
+	"quantity": "3",
+	"complete": False"
+    }
+  ]
 }
 ```
 
@@ -163,5 +181,21 @@ Accept: application/json
 **Reponse to request:**
 ```
 {
+  "history": [
+    {
+     "cart_id": "555",
+	"user_id": "2",
+	"product id": "1",
+	"quantity": "1",
+	"complete": "True"
+    }, 
+    {
+    "cart_id": "555",
+	"user_id": "2",
+	"product id": "1",
+	"quantity": "3",
+	"complete": "True""
+    }
+  ]
 }
 ```
