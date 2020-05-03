@@ -80,14 +80,14 @@ Authorization functionality is provided by a separate, web front-end, micro-serv
 
 Example of requests and responses are given for each endpoints:
 
-### POST Add product transaction
+## POST Add product transaction
 Create new transaction on the basis of `product_id` and `quantity` parameter
 ```
 POST /api/v1/add_transaction
 Content-type: application/json 
 Accept: application/json
 ```
-**Response body:**
+**Request body example:**
 ```
 {
 	"user_id": 55
@@ -103,7 +103,7 @@ POST /api/v1/change_quantity
 Content-type: application/json 
 Accept: application/json
 ```
-**Response body:** This will update the quantity of production_id 1 and user_id 55 to 1
+**Request body example:** This will update the quantity of production_id 1 and user_id 55 to 1
 ```
 {
 	"user_id": 55,
@@ -118,7 +118,7 @@ POST /api/v1/delete_transaction
 Content-type: application/json 
 Accept: application/json
 ```
-**Response body:** This will delete the product_id 1 from user_id55's cart
+**Request body example:** This will delete the product_id 1 from user_id55's cart
 ```
 {
 	"user_id": 55,
@@ -134,7 +134,7 @@ POST /api/v1/checkout
 Content-type: application/json 
 Accept: application/json
 ```
-**Request body:** This will update all current transaction of given user_id to 'True' = PAID
+**Request body example:** This will update all current transaction of given user_id to 'True' = PAID
 ```
 {
 	"user_id": 55
