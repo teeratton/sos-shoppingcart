@@ -49,7 +49,7 @@ Authorization functionality is provided by a separate, web front-end, micro-serv
 | Attribute | Type | Description |
 |-----------|------|-------------|
 |**cart_id** |integer |ID of the shopping cart|
-|**product_list**|integer |List of products within the shopping cart|
+|**product_id**|integer |ID of product item/s within the shopping cart|
 |**user_id** |integer |Owner's id of the shopping cart|
 |**complete** |boolean |False = current cart, True = history cart|
 
@@ -72,8 +72,8 @@ Authorization functionality is provided by a separate, web front-end, micro-serv
 |**POST**|   /api/v1/add| Add product item/s|
 |**POST**|   /api/v1/remove| Remove product item/s|
 |**POST**|   /api/v1/checkout|Checkout current shopping cart|
-|**GET**|    /api/v1/users/:user_id/current_transaction/|Display active carts|
-|**GET**|    /api/v1/users/:user_id/history_transaction/|Display carts that were checked out of given user|
+|**GET**|    /api/v1/users/:user_id/current_transaction/|Display active carts o a given user|
+|**GET**|    /api/v1/users/:user_id/history_transaction/|Display carts that were checked out of a given user|
 
 ## Requests and responses
 
