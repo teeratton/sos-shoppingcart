@@ -77,7 +77,8 @@ def checkout():
 def current_transaction(id):
     user_id = id
     current_transactions = Cart_table.query.all()
-    data = json.dumps(current_transactions)
+    data = JSON.dumps(current_transactions)
+    
     
     #current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
     #print(current_transaction)
