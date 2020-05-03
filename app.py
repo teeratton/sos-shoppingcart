@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-ENV = 'dev'
+ENV = 'prod'
 
 if ENV == 'dev':
     app.debug = True
@@ -63,8 +63,45 @@ def add_transaction():
     current_transaction.update({'quantity' : quantity})
     db.session.commit()
 
+    return "quantity is updated"
+
+# Change quantity of given user_id and product_id
+@app.route('/api/v1/change_quantity' , methods=['POST'])
+def change_quantity():
+
+    data = request.get_json()
+
+    user_id = data['user_id']
+    product_id = data ['product_id']
+    quantity = data['quantity']
+    current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == user_id, Cart_table.product_id == product_id, Cart_table.complete == False)
+    
+    if current_transaction.count() == 0:
+        return "There is no active transaction of given user_id and product_id"
         
-    return "quantity updated"
+    current_transaction.update({'quantity' : quantity})
+    db.session.commit()
+    return "quantity is changed"
+    
+@app.route('/api/v1/delete_transaction', methods=['DELETE'])
+def delete_transaction():
+    data = request.get_json()
+
+    user_id = data['user_id']
+    product_id = data ['product_id']
+    
+    current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == user_id, Cart_table.product_id == product_id, Cart_table.complete == False)
+    
+    if current_transaction.count() == 0:
+        return "There is no active transaction of given user_id and product_id"
+    
+    current_transaction.delete()
+    db.session.commit()
+    return "transaction is deleted"
+    
+    
+    
+    
                 
 # checkout  query all transaction of given user_id and change complete to TRUE
 @app.route('/api/v1/checkout', methods=['POST'])
