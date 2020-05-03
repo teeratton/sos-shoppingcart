@@ -57,7 +57,7 @@ Authorization functionality is provided by a separate, web front-end, micro-serv
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-|**transaction_id** |integer,pk |ID of the shopping cart|
+|**transaction_id** |integer|ID of the shopping cart|
 |**user_id** |integer |Owner's id of the shopping cart|
 |**product_id** |integer |ID of the product put into shopping cart|
 |**quantity** |integer |Number of products selected|
