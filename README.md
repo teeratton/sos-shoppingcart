@@ -4,7 +4,7 @@ This API for shopping cart provides a selection of endpoints for interacting wit
 
 ## List of requirements:
 
-- Update a shopping cart (add/remove)
+- Update a shopping cart (add/delete)
 - Check out (Complete purchase of all products in current shopping cart)
 - Display history and current shopping carts of each user
 
