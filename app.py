@@ -105,7 +105,7 @@ def current_transaction(id):
     current_transactions = Cart_table.query.all()
     current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
     print(current_transaction)
-    return jsonify(json_list=[i.serialize for i in current_transactions])
+    return jsonify(json_list=[i.trans_serialize for i in current_transactions])
 
         
 #show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
@@ -114,7 +114,7 @@ def history_transaction(id):
     data = request.get_json()
     user_id = id
     history_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id',Cart_table.complete.is_(True))
-    return jsonify(current=[e.serialize() for e in history_transaction])
+    return jsonify(current=[e.trans_serialize() for e in history_transaction])
 
 if __name__ == '__main__':
     app.run()
