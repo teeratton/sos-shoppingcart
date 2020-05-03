@@ -71,8 +71,9 @@ def checkout():
 @app.route('/api/v1/users/<id>/current_transaction', methods=['GET'])
 def current_transaction(id):
     user_id = id
-    current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
-    print(current_transaction)
+    current_transaction = Cart_table.query.all()
+    #current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
+    #print(current_transaction)
     return current_transaction
     #return jsonify(current_transaction)
         
