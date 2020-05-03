@@ -1,7 +1,9 @@
+# -----------------------------------------------------------------------------------------------
+# Import
 from flask import Flask, render_template, request, jsonify
 from flask.json import JSONEncoder
 from flask_sqlalchemy import SQLAlchemy
-
+# -----------------------------------------------------------------------------------------------
 
 app = Flask(__name__)
 app.json_encoder = MyJSONEncoder
@@ -20,7 +22,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-
+# -----------------------------------------------------------------------------------------------
 class Cart_table(db.Model):
     __tablename__ = 'shopping_cart'
     id = db.Column(db.Integer, primary_key=True)
@@ -66,7 +68,7 @@ def index():
     return render_template('APItest.html')
 
 
-
+# -----------------------------------------------------------------------------------------------
 # Add product to cart
 @app.route('/api/v1/transactions', methods=['POST'])
 def add_transaction():
@@ -82,7 +84,14 @@ def add_transaction():
     db.session.add(data)
     db.session.commit()
     return "Item has been added to the cart"
-    
+# -----------------------------------------------------------------------------------------------
+
+
+# -----------------------------------------------------------------------------------------------
+
+
+
+
         
 #<---- todo ------>
         
@@ -116,5 +125,7 @@ def history_transaction(id):
     history_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id',Cart_table.complete.is_(True))
     return jsonify(current=[e.trans_serialize() for e in history_transaction])
 
+# -----------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     app.run()
+# -----------------------------------------------------------------------------------------------
