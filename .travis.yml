@@ -5,12 +5,30 @@ services:
 python:
   - "3.7"
 cache: pip
+# install dependencies
 install:
   - pip install -r requirements.txt
+  - pip install codecov
+  - pip install pylint
+  - pip install pytest
+before_script:
+  - pylint --version
+before_script:
+  - pylint --version
+before_script:
+  - pylint --version
 script:
-  - py.test --cov-report term-missing --cov app -v
+  # unit test
+  - python -m pytest -v
+  # check style
+  - pylint --output-format=text app.py
+  #coverage test
+  - coverage erase
+  - coverage run app.py && coverage html
+after_success:
+  - codecov
 deploy:
   provider: heroku
   api_key:
-    secure: ""
+    secure: 8914777b-9c4b-4037-b10d-35e0322b8633
   app: sos-shoppingcart

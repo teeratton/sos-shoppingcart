@@ -4,7 +4,7 @@ This API for shopping cart provides a selection of endpoints for interacting wit
 
 ## List of requirements:
 
-- Update a shopping cart (add/remove)
+- Update a shopping cart (add/delete)
 - Check out (Complete purchase of all products in current shopping cart)
 - Display history and current shopping carts of each user
 
@@ -19,10 +19,10 @@ This API for shopping cart provides a selection of endpoints for interacting wit
 - [API](#api)
   - [Endpoints](#endpts)
   - [Requests and responses](#req)
-    - [POST add product items](#add)
-    - [POST remove product items](#remove)
-    - [POST checkout shopping cart](#checkout)
-    - [GET current shopping carts](#current)
+    - [POST Add product transaction](#add)
+    - [POST Change quantity](#change)
+    - [DELETE transaction of a product](#delete)
+    - [GET current shopping cart](#current)
     - [GET history shopping carts](#history)
  
 ## Hello World 
@@ -42,22 +42,22 @@ Content-Type: application/json
 ## Authentication - Authorization
 Authorization functionality is provided by a separate, web front-end, micro-service. Therefore, a JWT token is provided by front-end microservice and included in the Authorization header in all HTTP requests. 
 
-# Cart 
+# Transaction 
 
-## Cart Object
+## Transaction Object
 
 | Attribute | Type | Description |
 |-----------|------|-------------|
-|**cart_id** |integer |ID of the shopping cart|
-|**product_list**|integer |List of products within the shopping cart|
 |**user_id** |integer |Owner's id of the shopping cart|
-|**complete** |boolean |False = current cart, True = history cart|
+|**product_list**|integer |product's the shopping cart|
+|**quantity** |integer |quantity of the product|
+|**complete** |boolean |False = current cart(not paid), True = history cart(paid)|
 
 ## Cart Transaction History Database
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-|**cart_id** |integer |ID of the shopping cart|
+|**transaction_id** |integer|ID of the shopping cart|
 |**user_id** |integer |Owner's id of the shopping cart|
 |**product_id** |integer |ID of the product put into shopping cart|
 |**quantity** |integer |Number of products selected|
@@ -69,8 +69,9 @@ Authorization functionality is provided by a separate, web front-end, micro-serv
 
 |Method|Endpoint/Request|Description|
 |------|----------------|-----------|
-|**POST**|   /api/v1/add| Add product item/s|
-|**POST**|   /api/v1/remove| Remove product item/s|
+|**POST**|   /api/v1/add_transaction| Add product to cart|
+|**POST**|   /api/v1/change_quantity| Change quantity of product in the cart|
+|**DELETE**| /api/v1/delete_transaction| Remove product from the cart|
 |**POST**|   /api/v1/checkout|Checkout current shopping cart|
 |**GET**|    /api/v1/users/:user_id/current_transaction/|Display active carts|
 |**GET**|    /api/v1/users/:user_id/history_transaction/|Display carts that were checked out of given user|
@@ -79,78 +80,92 @@ Authorization functionality is provided by a separate, web front-end, micro-serv
 
 Example of requests and responses are given for each endpoints:
 
-### POST add or remove product item/s
+### POST add transaction
 Create new transaction on the basis of `product_id` and `quantity` parameter
 
-**Add Example:** 
-Endpoint: /api/v1/add
+## Add product transaction
 ```
-POST /api/v1/transactions
+POST /api/v1/add_transaction
 Content-type: application/json 
 Accept: application/json
 ```
-**Reponse to request:**
+**Request body:**
 ```
 {
 	"user_id": 55
 	"product id": "1",
 	"quantity": "1",
-	"complete": "False"
 }
 ```
 
-**Remove Example:** 
-Endpoint: /api/v1/remove
+## POST Change quantity
+Change quantity inside a shopping cart of a product item
 ```
-POST /api/v1/transactions
+POST /api/v1/change_quantity
 Content-type: application/json 
 Accept: application/json
 ```
-**Reponse to request:**
+**Request body:**: This will update the quantity of production_id 1 and user_id 55 to 1
+```
+{
+	"user_id": 55,
+	"product id": "1",
+	"quantity": "1"
+}
+```
+
+## DELETE transaction of a product 
+```
+POST /api/v1/delete_transaction
+Content-type: application/json 
+Accept: application/json
+```
+**Request body:**: This will delete the product_id 1 from user_id55's cart
+```
+{
+	"user_id": 55,
+	"product id": "1"
+}
+```
+
+## POST Checkout shopping cart
+Update `False` status of `complete` parameter of current cart to be `True` = PAID
+Endpoint: /api/v1/checkout
+```
+POST /api/v1/checkout
+Content-type: application/json 
+Accept: application/json
+```
+**Request body:** This will update all current transaction of given user_id to 'True' = PAID
 ```
 {
 	"user_id": 55
-	"product id": "1",
-	"quantity": "0",
-	"complete": True"
 }
 ```
 
-### POST checkout shopping cart
-Update `False` status of `complete` parameter of current cart to be `True` = PAID
-Endpoint: /api/v1/checkout
-
-**Example:** 
-
-```
-GET /api/v1/checkout
-Content-type: application/json 
-Accept: application/json
-```
-**Reponse to request:**
-```
-{
-	"Current cart has been checked out."
-}
-```
-
-### GET current shopping carts
+## GET current shoppingcart
 Endpoint:  /api/v1/users/:user_id/current_transaction/
 
-**Example:** Current user `id` = 2 
+**Example:** Current user `id` = 3 
 
 ```
-GET /api/v1/users/2/current_transaction/
+GET /api/v1/users/3/current_transaction/
 Content-type: application/json 
 Accept: application/json
 ```
-**Reponse to request:**
+**Response body:**
 ```
-{
-}
+[
+	
+		{"product_id": 5,
+		"quantity": 10}, 
+	
+		{"product_id: 10, 
+		"quantity" : 3}
+]
 ```
 
-### GET history shopping carts
+## GET history shopping carts
 Endpoint: /api/v1/users/:user_id/history_transaction/
 
 **Example:**  Current user `id` = 2 
@@ -160,8 +175,14 @@ GET /api/v1/users/2/history_transaction
 Content-type: application/json 
 Accept: application/json
 ```
-**Reponse to request:**
+**Response:**
 ```
-{
-}
+[
+	
+		{"product_id": 10, 
+		"quantity": 2}, 
+	 
+		{"product_id: 20, 
+		"quantity" : 10}
+]
 ```
