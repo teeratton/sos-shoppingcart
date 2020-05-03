@@ -13,7 +13,7 @@ install:
 script:
   - git clone https://github.com/teeratton/sos-shoppingcart.git
   - cd sos-shoppingcart
-  - coverage run src
+  - coverage run app.py
   - coverage report
 after_success:
   - codecov
