@@ -86,16 +86,32 @@ def add_transaction():
     return "Item has been added to the cart"
 # -----------------------------------------------------------------------------------------------
 
+
+# -----------------------------------------------------------------------------------------------
+# Remove product to cart
 '''
-def add_product(id):
+@app.route('/api/v1/transactions', methods=['POST'])
+def remove_transaction():
+    
     data = request.get_json()
-    user_id = id
-    current_transactions = Cart_table.query.all()
-    current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
-    current_transaction.
-    print(current_transaction)
-    return jsonify(json_list=[i.trans_serialize for i in current_transactions])
-'''
+    
+    user_id = data['user_id']
+    product_id = data ['product_id']
+    #quantity = data['quantity']
+    complete = False
+    
+    
+    data = Cart_table(user_id,product_id,quantity,complete)
+    
+    db.session.add(data)
+    db.session.commit()
+    
+    return "Item Has Been Removed From The Cart"
+ '''
+# -----------------------------------------------------------------------------------------------
+
+
+
 # -----------------------------------------------------------------------------------------------
 
 
