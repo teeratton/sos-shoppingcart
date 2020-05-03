@@ -1,12 +1,11 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, json
 from flask.json import JSONEncoder
 from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
-app.json_encoder = MyJSONEncoder
 
-ENV = 'prod'
+ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
@@ -49,17 +48,7 @@ class Cart_table(db.Model):
 
  
 
-class MyJSONEncoder(JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, Cart_table):
-            return {
-            'cart_id': obj.cart_id,
-            'user_id': obj.user_id, 
-            'product_id': obj.product_id,
-            'quantity': obj.quantity,
-            'complete': obj.complete
-            }
-        return super(MyJSONEncoder, self).default(obj)
+
    
 @app.route('/')
 def index():
@@ -91,21 +80,36 @@ def add_transaction():
 def checkout():
     data = request.get_json()
     user_id = data['user_id']
-    transaction = db.session.query(Cart_table).filter(Cart_table.user_id == user_id)
-    transaction.complete = True
+    current_transactions = db.session.query(Cart_table).filter(Cart_table.user_id == user_id, Cart_table.complete.is_(False))
+    
+    if current_transactions.count() == 0:
+        return "There is no active transaction for this user"
+        
+    transaction = db.session.query(Cart_table).filter(Cart_table.user_id == user_id).update({'complete' : True})
+    
     db.session.commit()
+    return "Checkout success"
 
     
 #show active transaction (send all transaction(complete = FALSE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/current_transaction', methods=['GET'])
-
 def current_transaction(id):
     data = request.get_json()
     user_id = id
-    current_transactions = Cart_table.query.all()
-    current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
-    print(current_transaction)
-    return jsonify(json_list=[i.trans_serialize for i in current_transactions])
+    current_transactions = db.session.query(Cart_table).filter(Cart_table.user_id == user_id, Cart_table.complete.is_(False))
+    if current_transactions.count() == 0:
+        return "There is no active transaction for this user"
+    
+    data = []
+    for i in current_transactions:
+        data_set = {"user_id" : i.user_id, "product_id": i.product_id, "quantity": i.quantity}
+        data.append(data_set)
+    json_format = json.dumps(data)
+    print(json_format)
+    
+   
+
+    return json_format
 
         
 #show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
@@ -113,8 +117,17 @@ def current_transaction(id):
 def history_transaction(id):
     data = request.get_json()
     user_id = id
-    history_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id',Cart_table.complete.is_(True))
-    return jsonify(current=[e.trans_serialize() for e in history_transaction])
+    current_transactions = db.session.query(Cart_table).filter(Cart_table.user_id == user_id, Cart_table.complete.is_(True))
+    if current_transactions.count() == 0:
+        return "There is no past transaction for this user"
+    
+    data = []
+    for i in current_transactions:
+        data_set = {"user_id" : i.user_id, "product_id": i.product_id, "quantity": i.quantity}
+        data.append(data_set)
+    json_format = json.dumps(data)
+    print(json_format)
 
+    return json_format
 if __name__ == '__main__':
     app.run()
