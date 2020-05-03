@@ -48,16 +48,16 @@ Authorization functionality is provided by a separate, web front-end, micro-serv
 
 | Attribute | Type | Description |
 |-----------|------|-------------|
-|**cart_id** |integer |ID of the shopping cart|
-|**product_list**|integer |List of products within the shopping cart|
 |**user_id** |integer |Owner's id of the shopping cart|
-|**complete** |boolean |False = current cart, True = history cart|
+|**product_list**|integer |product's the shopping cart|
+|**quantity** |boolean |quantity of the product|
+|**complete** |boolean |False = current cart(not paid), True = history cart(paid)|
 
 ## Cart Transaction History Database
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-|**transaction_id** |integer |ID of the shopping cart|
+|**transaction_id** |integer,pk |ID of the shopping cart|
 |**user_id** |integer |Owner's id of the shopping cart|
 |**product_id** |integer |ID of the product put into shopping cart|
 |**quantity** |integer |Number of products selected|
