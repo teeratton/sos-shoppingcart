@@ -72,6 +72,7 @@ def checkout():
 def current_transaction(id):
     user_id = id
     current_transaction = filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
+    print(current_transaction)
     return jsonify(current_transaction)
         
 #show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
