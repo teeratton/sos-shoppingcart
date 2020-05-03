@@ -77,12 +77,12 @@ def checkout():
 def current_transaction(id):
     user_id = id
     current_transactions = Cart_table.query.all()
-    transaction = current_transactions[0]
+    data = json.dumps(current_transactions)
     
     #current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == 'user_id', Cart_table.complete.is_(False))
     #print(current_transaction)
     #return current_transaction
-    return transaction.user_id
+    return data
         
 #show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/history_transaction', methods=['GET'])
