@@ -1,24 +1,19 @@
 dist: xenial
 language: python
 services:
-  - postgresql
+- postgresql
 python:
-  - "3.7"
+- '3.7'
 cache: pip
-# install dependencies
 install:
-  - pip install -r requirements.txt
+- pip install -r requirements.txt
 script:
-  - git clone https://github.com/teeratton/sos-shoppingcart.git
-  - cd sos-shoppingcart
-# - coverage run app.py
-# - coverage run --source sos-shoppingcart --branch -m unittest discover
-# - coverage report
-# - pytest
+- git clone https://github.com/teeratton/sos-shoppingcart.git
+- cd sos-shoppingcart
 deploy:
   provider: heroku
   api_key:
-    secure: 8914777b-9c4b-4037-b10d-35e0322b8633
+    secure: JD3Cewnu//oqi1HYgY7K/wkDtIaN9w2qepiEREwI1sUJnWekSxxdfcHK44NAd1IZCuof6tnKx+l0AUgSCnbxgIlvmMA8Qz8khScY9kSuHfsFyuIBfsoe6fp4WTasQNjXC9X56VMxRrf3rJJxs3ZaAVc7PtznUU6Qy/N+49QJSB8mYQh1zV/575QvUvKDaK1HuBdiZ61uwKYhhaD17FgdI07jYj/PpbG1bUJdGdzt7/uzJ0v4imCRKVorAo2N/ZyMJfrvrHLFoEJnwzADNFZ+UssCj3XPLn0nAW4jKinXMskPizLpqFpncxn8rpNtHD3BXv4fyHmIdHek5XUmm0NUdqGDqJiS+zLk48cPCVhLGpqEuSOMWOTshGP1UVwFziFjhCXpgtP6k+J3lfaVDY3qA6Rt6uVqcm0yweSLcOfrzs3DGU6QD3zr3lRs6ylBe0gMDydo5J++BzhUy+m7YqDE75UCZZkjdLL7fltfOsS0C/ob6E+EwSA72P0SiCp4JD1XRMyIv/pCGECj4kVXa/rl8HWkheDjLuJ9QDRboT56Tm+qQBOcOKtvJNgJiF10Kln2C8oClXH4Secjkm/3hRHEEiNtfe6vb9G5pfv9eZpXkjKND+POHrxvhNzl475tAhPTQqskt5RXOgOyj1efxIwbY2INQJY3DBdjfQJ8uM2Injg=
   app: sos-shoppingcart
   on:
     repo: teeratton/sos-shoppingcart
