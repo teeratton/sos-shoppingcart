@@ -23,7 +23,7 @@ This API for shopping cart provides a selection of endpoints for interacting wit
     - [POST Change quantity](#post-change-quantity)
     - [DELETE Transaction of a product](#delete-transaction-of-a-product)
     - [GET Current shopping cart](#get-current-shopping-cart)
-    - [GET History shopping carts](#get-history-shopping-cart)
+    - [GET History shopping carts](#get-history-shopping-carts)
  
 ## Hello World 
 Our SOS shopping cart is deployed through heroku at: 
