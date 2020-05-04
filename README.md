@@ -12,7 +12,7 @@ This API for shopping cart provides a selection of endpoints for interacting wit
 
 - [Generals](#generals)
   - [Hello World](#hello-world)
-  - [Authentication - Authorization](#authentication-authorization)
+  - [Authentication and Authorization](#authentication-and-authorization)
 - [Cart](#cart) 
   - [Cart Object](#cart-object)
   - [Cart Transaction History Database](#cart-transaction-history-database)
@@ -21,9 +21,9 @@ This API for shopping cart provides a selection of endpoints for interacting wit
   - [Requests and responses](#requests-and-requespons)
     - [POST Add product transaction](#post-add-product-transaction)
     - [POST Change quantity](#post-change-quantity)
-    - [DELETE Transaction of a product](#delete-transaction-product)
-    - [GET Current shopping cart](#get-current-cart)
-    - [GET History shopping carts](#get-history-cart)
+    - [DELETE Transaction of a product](#delete-transaction-of-a-product)
+    - [GET Current shopping cart](#get-current-shopping-cart)
+    - [GET History shopping carts](#get-history-shopping-cart)
  
 ## Hello World 
 Our SOS shopping cart is deployed through heroku at: 
