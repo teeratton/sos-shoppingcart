@@ -20,3 +20,5 @@ deploy:
   api_key:
     secure: 8914777b-9c4b-4037-b10d-35e0322b8633
   app: sos-shoppingcart
+  on:
+    repo: sos-shoppingcart
