@@ -13,9 +13,9 @@ This API for shopping cart provides a selection of endpoints for interacting wit
 - [Generals](#generals)
   - [Hello World](#hello-world)
   - [Authentication and Authorization](#authentication-and-authorization)
-- [Cart](#cart) 
-  - [Cart Object](#cart-object)
-  - [Cart Transaction History Database](#cart-transaction-history-database)
+- [Transaction](#transaction) 
+  - [Transaction Object](#transaction-object)
+  - [Transaction History Database](#transaction-history-database)
 - [API](#api)
   - [Endpoints](#endpoints)
   - [Requests and responses](#requests-and-requespons)
@@ -39,7 +39,7 @@ If you look at the header, you should see that the content-type is json:
 Content-Type: application/json
 ```
 
-## Authentication - Authorization
+## Authentication and Authorization
 Authorization functionality is provided by a separate, web front-end, micro-service. Therefore, a JWT token is provided by front-end microservice and included in the Authorization header in all HTTP requests. 
 
 # Transaction 
@@ -53,7 +53,7 @@ Authorization functionality is provided by a separate, web front-end, micro-serv
 |**quantity** |integer |quantity of the product|
 |**complete** |boolean |False = current cart(not paid), True = history cart(paid)|
 
-## Cart Transaction History Database
+## Transaction History Database
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
