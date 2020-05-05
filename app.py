@@ -4,10 +4,9 @@ import jwt, os
 from boto.s3.connection import S3Connection
 #from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
 
-app = Flask(__name__) CORS(app)
-SITE_NAME = ‘http://localhost:8000’
+app = Flask(__name__)
+
 
 ENV = 'prod'
 
@@ -19,7 +18,6 @@ if ENV == 'dev':
 else:
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-    #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://etenqytsjeoypx:ebb1a5d71cc102c5e4ad94bf6734be94253db5b2499022e9a4d1fd5bddcdec60@ec2-52-87-135-240.compute-1.amazonaws.com:5432/d2iqpd7aouh4hr'
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 
@@ -61,27 +59,6 @@ def token_required(f):
 @app.route('/')
 def index():
     return render_template('APItest.html')
-
-@app.route(‘/<path:path>’,methods=[‘GET’,’POST’,”DELETE”])
-def proxy(path):
-    global SITE_NAME
-    if request.method==’GET’:
-        resp = requests.get(f’{SITE_NAME}{path}’)
-        excluded_headers = [‘content-encoding’, ‘content-length’, ‘transfer-encoding’, ‘connection’]
-        headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
-        response = Response(resp.content, resp.status_code, headers)
-        return response
-    elif request.method==’POST’:
-        resp = requests.post(f’{SITE_NAME}{path}’,json=request.get_json())
-        excluded_headers = [‘content-encoding’, ‘content-length’, ‘transfer-encoding’, ‘connection’]
-        headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
-        response = Response(resp.content, resp.status_code, headers)
-        return response
-    elif request.method==’DELETE’:
-        resp = requests.delete(f’{SITE_NAME}{path}’).content
-        response = Response(resp.content, resp.status_code, headers)
-        return response
-
 
 # Add product to cart
 @app.route('/api/v1/add_transaction', methods=['POST'])
@@ -204,4 +181,4 @@ def history_transaction(id):
     return json_format
     
 if __name__ == '__main__':
-    app.run(debug = False,port=80)
+    app.run()
