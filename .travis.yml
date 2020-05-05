@@ -7,6 +7,7 @@ python:
 cache: pip
 install:
 - pip install -r requirements.txt
+- pip install -U flask_cors
 script:
 - git clone https://github.com/teeratton/sos-shoppingcart.git
 - cd sos-shoppingcart
