@@ -79,14 +79,14 @@ def add_transaction():
         data = Cart_table(user_id,product_id,quantity,complete)
         db.session.add(data)
         db.session.commit()
-        return "Item has been added to the cart"
+        return jsonify({"message":"Item has been added to the cart"})
     
     quantity = current_transaction[0].quantity + quantity
     
     current_transaction.update({'quantity' : quantity})
     db.session.commit()
 
-    return "quantity is updated"
+    return jsonify({"message":"quantity is updated"})
 
 # Change quantity of given user_id and product_id
 @app.route('/api/v1/change_quantity' , methods=['POST'])
@@ -100,11 +100,11 @@ def change_quantity():
     current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == user_id, Cart_table.product_id == product_id, Cart_table.complete == False)
     
     if current_transaction.count() == 0:
-        return "There is no active transaction of given user_id and product_id"
+        return jsonify({"message":"There is no active transaction of given user_id and product_id"})
         
     current_transaction.update({'quantity' : quantity})
     db.session.commit()
-    return "quantity is changed"
+    return jsonify({"message":"quantity is changed"})
     
     
 # delete active transaction of given user_id and product_id
@@ -118,11 +118,11 @@ def delete_transaction():
     current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == user_id, Cart_table.product_id == product_id, Cart_table.complete == False)
     
     if current_transaction.count() == 0:
-        return "There is no active transaction of given user_id and product_id"
+        return jsonify({"message":"There is no active transaction of given user_id and product_id"})
     
     current_transaction.delete()
     db.session.commit()
-    return "transaction is deleted"
+    return jsonify({"message":"transaction is deleted"})
     
     
     
@@ -136,12 +136,12 @@ def checkout():
     current_transactions = db.session.query(Cart_table).filter(Cart_table.user_id == user_id, Cart_table.complete.is_(False))
     
     if current_transactions.count() == 0:
-        return "There is no active transaction for this user"
+        return jsonify({"message":"There is no active transaction for this user"})
         
     transaction = db.session.query(Cart_table).filter(Cart_table.user_id == user_id).update({'complete' : True})
     
     db.session.commit()
-    return "Checkout success"
+    return jsonify({"message":"Checkout success"})
 
     
 #show active transaction (send all transaction(complete = FALSE) of given id) return in JSON format
@@ -151,7 +151,7 @@ def current_transaction(id):
     user_id = id
     current_transactions = db.session.query(Cart_table).filter(Cart_table.user_id == user_id, Cart_table.complete.is_(False))
     if current_transactions.count() == 0:
-        return "There is no active transaction for this user"
+        return jsonify({"message":"There is no active transaction for this user"})
     
     data = []
     for i in current_transactions:
@@ -170,7 +170,7 @@ def history_transaction(id):
     user_id = id
     current_transactions = db.session.query(Cart_table).filter(Cart_table.user_id == user_id, Cart_table.complete.is_(True))
     if current_transactions.count() == 0:
-        return "There is no past transaction for this user"
+        return jsonify({"message" : "There is no past transaction for this user"})
     
     data = []
     for i in current_transactions:
