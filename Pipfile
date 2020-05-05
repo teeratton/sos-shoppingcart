@@ -13,6 +13,7 @@ gunicorn = "*"
 flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
 jwt = "*"
+boto = "*"
 
 [requires]
 python_version = "3.7"

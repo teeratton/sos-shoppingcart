@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify, json
 from flask.json import JSONEncoder
 import jwt, os
 from boto.s3.connection import S3Connection
-from functools import wraps
+#from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 
 
