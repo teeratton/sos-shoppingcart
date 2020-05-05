@@ -12,6 +12,7 @@ flask-sqlalchemy = "*"
 gunicorn = "*"
 flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
+jwt = "*"
 
 [requires]
 python_version = "3.7"
