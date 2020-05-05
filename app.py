@@ -4,11 +4,8 @@ import jwt, os
 from boto.s3.connection import S3Connection
 #from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS, cross_origin
-from . import errors
 
-app = Flask(__name__) CORS(app)
-errors.init_handler(app) # initialise error handling 
+app = Flask(__name__)
 
 ENV = 'prod'
 
