@@ -82,6 +82,7 @@ Example of requests and responses are given for each endpoints:
 
 ## POST Add product transaction
 Create new transaction on the basis of `product_id` and `quantity` parameter
+If `POST` add the same user_id and product_id twice, the quantity will be update instead of producting a new transaction.
 ```
 POST /api/v1/add_transaction
 Content-type: application/json 
@@ -95,6 +96,15 @@ Accept: application/json
 	"quantity": "1",
 }
 ```
+**Request twice body example:**
+```
+{
+	"user_id": 55
+	"product id": "1",
+	"quantity": "2",
+}
+```
+
 
 ## POST Change quantity
 Change quantity inside a shopping cart of a product item
