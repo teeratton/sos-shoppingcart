@@ -1,14 +1,13 @@
-from flask import Flask, render_template, request, jsonify, json
+from flask import Flask, render_template, request, jsonify, json, redirect,Response
 from flask.json import JSONEncoder
 import jwt, os
 from boto.s3.connection import S3Connection
 #from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS, cross_origin
-from . import errors
+from flask_cors import CORS
 
 app = Flask(__name__) CORS(app)
-errors.init_handler(app) # initialise error handling 
+SITE_NAME = ‘http://localhost:8000’
 
 ENV = 'prod'
 
@@ -63,6 +62,25 @@ def token_required(f):
 def index():
     return render_template('APItest.html')
 
+@app.route(‘/<path:path>’,methods=[‘GET’,’POST’,”DELETE”])
+def proxy(path):
+    global SITE_NAME
+    if request.method==’GET’:
+        resp = requests.get(f’{SITE_NAME}{path}’)
+        excluded_headers = [‘content-encoding’, ‘content-length’, ‘transfer-encoding’, ‘connection’]
+        headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
+        response = Response(resp.content, resp.status_code, headers)
+        return response
+    elif request.method==’POST’:
+        resp = requests.post(f’{SITE_NAME}{path}’,json=request.get_json())
+        excluded_headers = [‘content-encoding’, ‘content-length’, ‘transfer-encoding’, ‘connection’]
+        headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
+        response = Response(resp.content, resp.status_code, headers)
+        return response
+    elif request.method==’DELETE’:
+        resp = requests.delete(f’{SITE_NAME}{path}’).content
+        response = Response(resp.content, resp.status_code, headers)
+        return response
 
 
 # Add product to cart
@@ -186,4 +204,4 @@ def history_transaction(id):
     return json_format
     
 if __name__ == '__main__':
-    app.run()
+    app.run(debug = False,port=80)
