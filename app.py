@@ -18,9 +18,9 @@ if ENV == 'dev':
 
 else:
     app.debug = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get['DATABASE_URL'])
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
     #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://etenqytsjeoypx:ebb1a5d71cc102c5e4ad94bf6734be94253db5b2499022e9a4d1fd5bddcdec60@ec2-52-87-135-240.compute-1.amazonaws.com:5432/d2iqpd7aouh4hr'
-    app.config['SECRET_KEY'] = os.environ.get['SECRET_KEY'])
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
