@@ -1,18 +1,27 @@
 from flask import Flask, render_template, request, jsonify, json
 from flask.json import JSONEncoder
+import jwt , os
+from boto.s3.connection import S3Connection
+from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
+
 
 
 app = Flask(__name__)
 
-ENV = 'prod'
+ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/shopping_cart'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DEV_DB_KEY')
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+
 else:
     app.debug = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://etenqytsjeoypx:ebb1a5d71cc102c5e4ad94bf6734be94253db5b2499022e9a4d1fd5bddcdec60@ec2-52-87-135-240.compute-1.amazonaws.com:5432/d2iqpd7aouh4hr'
+    app.config['SQLALCHEMY_DATABASE_URI'] = S3Connection(os.environ['DATABASE_URL'])
+    #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://etenqytsjeoypx:ebb1a5d71cc102c5e4ad94bf6734be94253db5b2499022e9a4d1fd5bddcdec60@ec2-52-87-135-240.compute-1.amazonaws.com:5432/d2iqpd7aouh4hr'
+    app.config['SECRET_KEY'] = S3Connection(os.environ['SECRET_KEY'])
+
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -31,6 +40,22 @@ class Cart_table(db.Model):
         self.product_id = product_id
         self.quantity = quantity
         self.complete = complete
+        
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.args.get('token')
+        
+        if not token:
+            return "Token is missing"
+        
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'])
+        except:
+            return "Token is invalid"
+        return f(*args,**kwargs)
+    return decorated
+    
 
     
 @app.route('/')
@@ -41,6 +66,7 @@ def index():
 
 # Add product to cart
 @app.route('/api/v1/add_transaction', methods=['POST'])
+#@token_required
 def add_transaction():
     
     data = request.get_json()
@@ -49,7 +75,7 @@ def add_transaction():
     product_id = data ['product_id']
     quantity = data['quantity']
     complete = False
-    
+    print(os.environ.get('DEV_DB_KEY'))
     current_transaction = db.session.query(Cart_table).filter(Cart_table.user_id == user_id, Cart_table.product_id == product_id, Cart_table.complete == False)
     
     if current_transaction.count() == 0:
