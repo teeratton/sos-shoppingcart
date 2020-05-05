@@ -4,10 +4,10 @@ import jwt, os
 from boto.s3.connection import S3Connection
 #from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 
-
-app = Flask(__name__)
+app = Flask(__name__) CORS(app)
 
 ENV = 'prod'
 
