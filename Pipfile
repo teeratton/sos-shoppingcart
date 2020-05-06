@@ -15,6 +15,7 @@ marshmallow-sqlalchemy = "*"
 jwt = "*"
 boto = "*"
 flask-cors = "*"
+pyjwt = "*"
 
 [requires]
 python_version = "3.7"

@@ -51,12 +51,13 @@ def token_required(f):
         if not token:
             return jsonify({'message' : 'Token is missing!'}), 401
 
-        print(app.config['SECRET_KEY'])
+        
         try:
             print(token)
             data = jwt.decode(token, app.config['SECRET_KEY'])
         except:
-            return "Token is invalid"
+            return jsonify({'message' : "Token is invalid"})
+        
         return f(*args,**kwargs)
     return decorated
     
@@ -70,7 +71,7 @@ def index():
 
 # Add product to cart
 @app.route('/api/v1/add_transaction', methods=['POST'])
-#@token_required
+@token_required
 def add_transaction():
     
     data = request.get_json()
@@ -97,6 +98,7 @@ def add_transaction():
 
 # Change quantity of given user_id and product_id
 @app.route('/api/v1/change_quantity' , methods=['POST'])
+@token_required
 def change_quantity():
 
     data = request.get_json()
@@ -116,6 +118,7 @@ def change_quantity():
     
 # delete active transaction of given user_id and product_id
 @app.route('/api/v1/delete_transaction', methods=['DELETE'])
+@token_required
 def delete_transaction():
     data = request.get_json()
 
@@ -137,6 +140,7 @@ def delete_transaction():
                 
 # checkout  query all transaction of given user_id and change complete to TRUE
 @app.route('/api/v1/checkout', methods=['POST'])
+@token_required
 def checkout():
     data = request.get_json()
     user_id = data['user_id']
@@ -153,6 +157,7 @@ def checkout():
     
 #show active transaction (send all transaction(complete = FALSE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/current_transaction', methods=['GET'])
+@token_required
 def current_transaction(id):
     data = request.get_json()
     user_id = id
@@ -172,6 +177,7 @@ def current_transaction(id):
         
 #show active transaction (send all transaction(complete = TRUE) of given id) return in JSON format
 @app.route('/api/v1/users/<id>/history_transaction', methods=['GET'])
+@token_required
 def history_transaction(id):
     data = request.get_json()
     user_id = id
