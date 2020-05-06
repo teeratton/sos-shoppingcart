@@ -44,17 +44,21 @@ def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = None
+        #token = request.args.get('Authorization')
         
-        if 'token' in request.headers:
-            token = request.headers['token']
+        
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization']
+            splited = token.split(' ')
+            
+        
     
         if not token:
-            return jsonify({'message' : 'Token is missing!'}), 401
+            return jsonify({'message' : 'Token is missing!'})
 
         
         try:
-            print(token)
-            data = jwt.decode(token, app.config['SECRET_KEY'])
+            data = jwt.decode(splited[1], app.config['SECRET_KEY'])
         except:
             return jsonify({'message' : "Token is invalid"})
         
