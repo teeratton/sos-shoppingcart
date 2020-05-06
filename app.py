@@ -2,10 +2,12 @@ from flask import Flask, render_template, request, jsonify, json
 from flask.json import JSONEncoder
 import jwt, os
 from boto.s3.connection import S3Connection
-#from functools import wraps
+from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 ENV = 'prod'
 
@@ -41,12 +43,17 @@ class Cart_table(db.Model):
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = request.args.get('token')
+        token = None
         
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+    
         if not token:
-            return "Token is missing"
-        
+            return jsonify({'message' : 'Token is missing!'}), 401
+
+        print(app.config['SECRET_KEY'])
         try:
+            print(token)
             data = jwt.decode(token, app.config['SECRET_KEY'])
         except:
             return "Token is invalid"
