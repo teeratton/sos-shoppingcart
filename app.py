@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, json
+from flask import Flask, render_template, request, jsonify, json, redirect,Response
 from flask.json import JSONEncoder
 import jwt, os
 from boto.s3.connection import S3Connection
@@ -8,6 +8,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
+
 
 ENV = 'prod'
 
@@ -70,8 +71,6 @@ def token_required(f):
 @app.route('/')
 def index():
     return render_template('APItest.html')
-
-
 
 # Add product to cart
 @app.route('/api/v1/add_transaction', methods=['POST'])
